@@ -10,12 +10,9 @@
  * };
  */
 class Solution {
-    int f(TreeNode *root, int h){
-        if(!root) return h;
-        return max(f(root->left, h+1), f(root->right, h+1));
-    }
 public:
     int maxDepth(TreeNode* root) {
-        return f(root,0);
+        if(!root) return 0;
+        return 1+max(maxDepth(root->left), maxDepth(root->right));
     }
 };
