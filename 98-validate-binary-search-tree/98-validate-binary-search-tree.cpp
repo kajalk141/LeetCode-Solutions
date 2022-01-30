@@ -12,9 +12,9 @@
 class Solution {
     
 public:
-    bool isValidBST(TreeNode* root, long  min_bound=LONG_MIN, long max_bound=LONG_MAX) {
+    bool isValidBST(TreeNode* root, TreeNode* mn=NULL, TreeNode* mx=NULL) {
         if(!root) return true;
-        if(root->val<=min_bound || root->val>=max_bound) return false;
-        return isValidBST(root->left,min_bound,root->val) && isValidBST(root->right,root->val,max_bound);
+        if( (mn && root->val<=mn->val) || (mx && root->val>=mx->val)) return false;
+        return isValidBST(root->left,mn,root) && isValidBST(root->right,root,mx);
     }
 };
