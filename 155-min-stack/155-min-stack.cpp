@@ -1,31 +1,28 @@
 class MinStack {
 public:
-    vector<int> v;
-    int tp=-1, mn=INT_MAX;
-    multiset<int> m;
+    stack<pair<int,int>> st;
     MinStack() {
         
     }
     
     void push(int val) {
-        v.push_back(val);
-        tp++;
-        m.insert(val);
+        if(st.empty()) st.push({val,val});
+        else{
+            if(st.top().second<val) st.push({val,st.top().second});
+            else st.push({val,val});
+        }
     }
     
     void pop() {
-        int ele=v[tp];
-        v.erase(v.begin()+tp);
-        m.erase(m.lower_bound(ele));
-        tp--;
+        st.pop();
     }
     
     int top() {
-        return v[tp];
+        return st.top().first;
     }
     
     int getMin() {
-        return *(m.begin());
+        return st.top().second;
     }
 };
 
