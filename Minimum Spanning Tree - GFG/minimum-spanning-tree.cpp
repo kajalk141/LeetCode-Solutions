@@ -14,12 +14,13 @@ class Solution
         // code here
         priority_queue<pair<int,int>, vector<pair<int,int>>, greater<pair<int,int>> > pq;
         vector<bool> vis(V,false);
-        vis[0]=true;
-        for(auto neigh:adj[0]){
-            if(!vis[neigh[0]]) pq.push({neigh[1],neigh[0]});
-        }
+        pq.push({0,0});
+        // vis[0]=true;
+        // for(auto neigh:adj[0]){
+        //     if(!vis[neigh[0]]) pq.push({neigh[1],neigh[0]});
+        // }
         int cost=0, edgeCount=0;
-        while(!pq.empty() && edgeCount!=V-1){
+        while(!pq.empty() && edgeCount!=V){
             auto edge=pq.top();
             pq.pop();
             if(vis[edge.second]) continue;
