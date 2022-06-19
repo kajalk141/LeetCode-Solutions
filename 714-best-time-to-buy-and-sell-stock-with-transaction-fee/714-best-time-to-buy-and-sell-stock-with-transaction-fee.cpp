@@ -4,8 +4,8 @@ class Solution {
         if(i==n) return 0;
         if(dp[i][stock]!=-1) return dp[i][stock];
         int ans=0;
-        if(stock) ans=max(prices[i]+rec(i+1,false,prices,fee,dp), rec(i+1,true,prices,fee,dp));
-        if(!stock) ans=max(rec(i+1,true,prices,fee,dp)-prices[i]-fee, rec(i+1,false,prices,fee,dp));
+        if(stock) ans=max(prices[i]+rec(i+1,false,prices,fee,dp)-fee, rec(i+1,true,prices,fee,dp));
+        if(!stock) ans=max(rec(i+1,true,prices,fee,dp)-prices[i], rec(i+1,false,prices,fee,dp));
         return dp[i][stock]=ans;
     }
 public:
