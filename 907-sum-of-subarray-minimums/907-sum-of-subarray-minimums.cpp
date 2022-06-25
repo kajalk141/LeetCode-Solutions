@@ -3,22 +3,26 @@ typedef long long ll;
 int mod=1e9+7;
 class Solution {
 public:
-    int sumSubarrayMins(vector<int>& arr) {
-        deque<pii> dq;
-        int n=arr.size();
-        ll res=0;
-        arr.push_back(0);
-        for(int i=0; i<=n; i++){
-            if(!dq.empty() && arr[i]>=arr[dq.back().first]) dq.push_back({i, i});
-            else{
-                int pos=i;
-                while(!dq.empty() && arr[i]<arr[dq.back().first]){
-                    pos=dq.back().second;
-                    res=(res+arr[dq.back().first]*1ll*(i-dq.back().first)*(dq.back().first-pos+1))%mod;
-                    dq.pop_back();
-                }
-                dq.push_back({i,pos});
+    int sumSubarrayMins(vector<int>& nums) {
+        int n=nums.size();
+        vector<int> ple(n,-1), nle(n,n);
+        stack<int> st;
+        for(int i=0; i<n; i++){
+            while(!st.empty() && nums[st.top()]>nums[i]) st.pop();
+            ple[i]=st.empty()?-1:st.top();
+            st.push(i);
+        }
+        while(!st.empty()) st.pop();
+        for(int i=0; i<n; i++){
+            while(!st.empty() && nums[st.top()]>nums[i]){
+                nle[st.top()]=i;
+                st.pop();
             }
+            st.push(i);
+        }
+        ll res=0;
+        for(int i=0; i<n; i++){
+            res=(res+nums[i]*1ll*(i-ple[i])*(nle[i]-i))%mod;
         }
         return res;
     }
