@@ -1,18 +1,27 @@
-int n;
 class Solution {
-    bool rec(int i, int j, string &s, vector<vector<int>> &dp){
-        if(i>=j) return 1;
-        if(dp[i][j]!=-1) return dp[i][j];
-        bool ans;
-        if(s[i]==s[j]) ans=rec(i+1,j-1,s,dp);
-        else ans=0;
-        return dp[i][j]=ans;
-    }
 public:
     vector<vector<string>> res;
     vector<string> temp;
+    int n;
+    vector<vector<string>> partition(string s) {
+        n=s.size();
+        vector<vector<bool>> dp(n, vector<bool>(n,0));
+        for(int i=1; i<=n; i++){
+            for(int j=0; j<=n-i; j++){
+                if(i==1) dp[j][j]=1;
+                else if(i==2) dp[j][j+1]=(s[j]==s[j+1]?1:0);
+                else{
+                    if(s[j]==s[j+i-1] && dp[j+1][j+i-2]==1)
+                        dp[j][j+i-1]=1;
+                }
+            }
+        }
+        rec(0,dp,s);
+        return res;
+        
+    }
     
-    void rec(int i, string &s, vector<vector<int>> &dp){
+    void rec(int i, vector<vector<bool>> &dp, string &s){
         if(i==n){
             res.push_back(temp);
             return;
@@ -20,24 +29,9 @@ public:
         for(int j=i; j<n; j++){
             if(dp[i][j]==1){
                 temp.push_back(s.substr(i,j-i+1));
-                rec(j+1,s,dp);
+                rec(j+1, dp, s);
                 temp.pop_back();
             }
         }
-    }
-    
-    vector<vector<string>> partition(string s) {
-        n=s.size();
-        vector<vector<int>> dp(n,vector<int>(n,-1));
-        for(int i=0; i<n; i++){
-            for(int j=i; j<n; j++){
-                if(s[i]==s[j] && rec(i+1,j-1,s,dp)){
-                    dp[i][j]=1;
-                }
-                else dp[i][j]=0;
-            }
-        }
-        rec(0,s,dp);
-        return res;
     }
 };
