@@ -1,22 +1,20 @@
 class Solution {
     struct trie{
+        int end=0;
         trie *child[26];
-        bool end=0;
     };
     trie *root;
-public:
     int n;
-    Solution(){
-        root=new trie();
-    }
+public:
     void insert(string s){
         trie *curr=root;
         for(char c:s){
-            if(!curr->child[c-'a']) curr->child[c-'a']=new trie();
+            if(curr->child[c-'a']==NULL) curr->child[c-'a']=new trie();
             curr=curr->child[c-'a'];
         }
-        curr->end=1;
+        curr->end++;
     }
+            
     bool search(trie *curr, string s, int idx, vector<int> &dp){
         if(idx==n) return true;
         if(dp[idx]!=-1) return dp[idx];
@@ -31,9 +29,11 @@ public:
     }
     
     bool wordBreak(string s, vector<string>& wordDict) {
+        root=new trie();
         n=s.size();
-        for(string word:wordDict) insert(word);
+        for(string word:wordDict) 
+            insert(word);
         vector<int> dp(n,-1);
-        return search(root,s,0,dp);
+        return search(root, s, 0, dp);
     }
 };
