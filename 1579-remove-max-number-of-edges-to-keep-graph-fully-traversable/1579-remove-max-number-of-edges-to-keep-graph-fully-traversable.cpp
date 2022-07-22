@@ -36,7 +36,9 @@ public:
             int type = edge[0], one = edge[1], two = edge[2];
             switch(type) {
                 case 3:
-                    cnt += (bob.merge(one, two) || alice.merge(one, two));
+                    if(bob.merge(one,two) && alice.merge(one,two)) cnt+=1;
+                    bob.merge(one, two);
+                    alice.merge(one, two);
                     break;
                 case 2:
                     cnt += bob.merge(one, two);
