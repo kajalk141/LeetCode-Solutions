@@ -3,7 +3,7 @@ public:
     
     int countPrimes(int n) {
         if(n==0) return 0;
-        vector<int> primes(n+1,1);
+        vector<bool> primes(n+1,1);
         primes[0]=primes[1]=0;
         for(int i=2; i*i<=n; i++){
             if(primes[i])
